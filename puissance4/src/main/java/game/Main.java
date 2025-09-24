@@ -1,6 +1,9 @@
 package game;
 
-public class main {
+import javax.swing.*;
+import java.awt.*;
+
+public class Main {
     public static void main(String[] args) {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int screenwidth = gd.getDisplayMode().getWidth();
