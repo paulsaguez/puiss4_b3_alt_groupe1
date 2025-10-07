@@ -7,7 +7,7 @@ package game;
 public class Player {
 
     private String name;
-    private Color couleur;
+    private PlayerColor couleur;
 
     /**
      * Crée un joueur avec un nom et une couleur donnée.
@@ -15,7 +15,7 @@ public class Player {
      * @param name    nom du joueur
      * @param couleur couleur associée au joueur (ROUGE ou JAUNE)
      */
-    public Player(String name, Color couleur) {
+    public Player(String name, PlayerColor couleur) {
         this.name = name;
         this.couleur = couleur;
     }
@@ -34,7 +34,7 @@ public class Player {
      *
      * @return couleur du joueur
      */
-    public Color getCouleur() {
+    public PlayerColor getCouleur() {
         return couleur;
     }
 }
