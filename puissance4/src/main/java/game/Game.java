@@ -1,12 +1,11 @@
 package game;
 
+import java.util.HashMap;
+
 public class Game {
 
     public int[][] plateau;
-    public Player player1;
-    public Player player2;
-    public int[][] player1pieces;
-    public int[][] player2pieces;
+    public HashMap<Player, int[][]> playerBoards = new HashMap<>();
     public Player activePlayer;
     public int[] lastOne;
 
@@ -16,8 +15,8 @@ public class Game {
         for(int i = 0; i < 7; i++) {
             this.lastOne[i] = -1;
         }
-        this.player1 = player1;
-        this.player2 = player2;
+        playerBoards.put(player1, new int[6][7]);
+        playerBoards.put(player2, new int[6][7]);
         this.activePlayer = player1;
     }
 
@@ -29,12 +28,18 @@ public class Game {
 
         int nextRow = lastOne[col] + 1;
 
-        plateau[nextRow][col] = (activePlayer.equals(player1)) ? 1 : 2;
+        //le joueur 1 a l'id 1 et le joueur 2 à l'id 2
+        plateau[nextRow][col] = (activePlayer.getId() == 1) ? 1 : 2;
 
         lastOne[col] = nextRow;
         return true;
     }
-
     
+
+    public boolean checkVictory(){
+        return true;
+    }
+
+
 
 }
