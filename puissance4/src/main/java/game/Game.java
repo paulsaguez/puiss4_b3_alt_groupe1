@@ -22,19 +22,30 @@ public class Game {
         this.activePlayer = player1;
     }
 
-    public boolean play(int col){
-        //1 représente un pion du joueur 1 et 2 un pion du joueur 2
+    public boolean play(int col) {
         if (col < 0 || col >= 7) return false;
-
         if (lastOne[col] >= 5) return false;
 
         int nextRow = lastOne[col] + 1;
+        int playerValue = (activePlayer.getId() == 1) ? 1 : 2;
 
-        //le joueur 1 a l'id 1 et le joueur 2 à l'id 2
-        plateau[nextRow][col] = (activePlayer.getId() == 1) ? 1 : 2;
-
+        plateau[nextRow][col] = playerValue;
         lastOne[col] = nextRow;
+
+        lastRow = nextRow;
+        lastCol = col;
+
         return true;
+    }
+
+
+    public void switchActivePlayer() {
+        for (Player p : playerBoards.keySet()) {
+            if (p.getId() != activePlayer.getId()) {
+                activePlayer = p;
+                return;
+            }
+        }
     }
 
     public boolean checkDraw(){
@@ -81,7 +92,4 @@ public class Game {
 
         return false;
     }
-
-
-
 }

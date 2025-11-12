@@ -19,6 +19,7 @@ public class Player {
     public Player(String name, PlayerColor couleur,int id) {
         this.name = name;
         this.couleur = couleur;
+        this.id = id;
     }
 
     /**
