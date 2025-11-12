@@ -8,6 +8,7 @@ public class Player {
 
     private String name;
     private PlayerColor couleur;
+    private int id;
 
     /**
      * Crée un joueur avec un nom et une couleur donnée.
@@ -15,9 +16,21 @@ public class Player {
      * @param name    nom du joueur
      * @param couleur couleur associée au joueur (ROUGE ou JAUNE)
      */
-    public Player(String name, PlayerColor couleur) {
+    public Player(String name, PlayerColor couleur,int id) {
         this.name = name;
         this.couleur = couleur;
+    }
+
+    /**
+     * Retourne l'id du joueur.
+     *
+     * @return id du joueur
+     */
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
