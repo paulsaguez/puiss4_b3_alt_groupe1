@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Player p1 = new Player("joueur1",PlayerColor.ROUGE, 1);
-            Player p2 = new Player("joueur1",PlayerColor.JAUNE, 2);
+            Player p2 = new Player("joueur2",PlayerColor.JAUNE, 2);
 
             Game game = new Game(p1, p2);
             Plateau plateau = new Plateau(game);
