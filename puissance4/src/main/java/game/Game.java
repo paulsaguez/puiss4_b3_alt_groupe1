@@ -36,10 +36,42 @@ public class Game {
         lastOne[col] = nextRow;
         return true;
     }
-    
 
-    public boolean checkVictory(){
-        return true;
+
+    private int countDirection(int row, int col, int dx, int dy, int playerId) {
+        int count = 0;
+        int x = row + dx;
+        int y = col + dy;
+
+        while (x >= 0 && x < 6 && y >= 0 && y < 7 && plateau[x][y] == playerId) {
+            count++;
+            x += dx;
+            y += dy;
+        }
+        return count;
+    }
+
+    public boolean checkVictory() {
+        int playerId = (activePlayer.getId() == 1) ? 1 : 2;
+
+        int[][] directions = {
+                {0, 1},
+                {1, 0},
+                {1, 1},
+                {1, -1}
+        };
+
+        for (int[] dir : directions) {
+            int count = 1;
+            count += countDirection(lastRow, lastCol, dir[0], dir[1], playerId);
+            count += countDirection(lastRow, lastCol, -dir[0], -dir[1], playerId);
+
+            if (count >= 4) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
