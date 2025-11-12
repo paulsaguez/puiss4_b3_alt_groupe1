@@ -1,10 +1,56 @@
 package game;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 class Plateau extends JPanel {
     static final int ROWS = 6;
     static final int COLS = 7;
+    private Game game;
+
+    public Plateau(Game game) {
+        this.game = game;
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int cellWidth = getWidth() / COLS;
+                int cellHeight = getHeight() / ROWS;
+                int cellSize = Math.min(cellWidth, cellHeight);
+
+                int boardWidth = COLS * cellSize;
+                int xOffset = (getWidth() - boardWidth) / 2;
+
+                int col = (e.getX() - xOffset) / cellSize;
+
+                // On joue uniquement si c’est dans la grille
+                if (col >= 0 && col < COLS) {
+                    boolean ok = game.play(col);
+                    if (ok) {
+                        repaint(); // redessiner avant le message
+
+                        if (game.checkVictory()) {
+                            JOptionPane.showMessageDialog(Plateau.this,
+                                    "Le joueur " + game.activePlayer.getName() + " a gagné !");
+                        } else if (game.checkDraw()) {
+                            JOptionPane.showMessageDialog(Plateau.this,
+                                    "Match nul !");
+                        } else {
+                            // changer de joueur uniquement si pas de victoire
+                            game.switchActivePlayer();
+                        }
+                        repaint();
+                    } else {
+                        // colonne pleine
+                        JOptionPane.showMessageDialog(Plateau.this,
+                                "Colonne pleine !");
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -21,46 +67,29 @@ class Plateau extends JPanel {
         int boardWidth  = COLS * cellSize;
         int boardHeight = ROWS * cellSize;
 
-        // Décalages pour centrer et aligner en bas
-        int xOffset = (getWidth() - boardWidth) / 2;      // centré
+        int xOffset = (getWidth() - boardWidth) / 2;
         int yOffset = getHeight() - boardHeight;
 
+        // fond bleu du plateau
         g2d.setColor(Color.BLUE);
-        g2d.fillRect(xOffset, yOffset, boardWidth, boardHeight); // fond bleu
+        g2d.fillRect(xOffset, yOffset, boardWidth, boardHeight);
 
-        // boucle sur toutes les cases
+        // dessin des pions
         for (int r = 0; r < ROWS; r++) {
             for (int c = 0; c < COLS; c++) {
                 int x = xOffset + c * cellSize;
-                int y = yOffset + r * cellSize;
+                int y = yOffset + (ROWS - 1 - r) * cellSize; // inverser pour que la base soit en bas
+                int value = game.plateau[r][c];
 
-                // case vide = trou blanc
-                g2d.setColor(Color.WHITE);
+                switch (value) {
+                    case 1 -> g2d.setColor(Color.RED);
+                    case 2 -> g2d.setColor(Color.YELLOW);
+                    default -> g2d.setColor(Color.WHITE);
+                }
+
                 g2d.fillOval(x + 10, y + 10, cellSize - 20, cellSize - 20);
             }
         }
-    }
-}
-
-public class board {
-    public static void main(String[] args) {
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int screenwidth = gd.getDisplayMode().getWidth();
-        int screenheight = gd.getDisplayMode().getHeight();
-
-        double percent = 0.8;
-        int width = (int) (screenwidth * percent);
-        int height = (int) (screenheight * percent);
-
-        JFrame frame = new JFrame("Premiere fenetre");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(width,height);
-        frame.setLocationRelativeTo(null);
-
-        Plateau plateau = new Plateau();
-        frame.add(plateau).setLocation(screenwidth/2, 0);
-        frame.setVisible(true);
-
     }
 }
 
