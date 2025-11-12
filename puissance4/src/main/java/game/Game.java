@@ -8,6 +8,8 @@ public class Game {
     public HashMap<Player, int[][]> playerBoards = new HashMap<>();
     public Player activePlayer;
     public int[] lastOne;
+    public int lastRow = -1;
+    public int lastCol = -1;
 
     public Game(Player player1, Player player2) {
         this.plateau = new int[6][7];
