@@ -37,6 +37,14 @@ public class Game {
         return true;
     }
 
+    public boolean checkDraw(){
+        for(int i = 0; i < 7; i++){
+            if(lastOne[i] != 5){
+                return false;
+            }
+        }
+        return true;
+    }
 
     private int countDirection(int row, int col, int dx, int dy, int playerId) {
         int count = 0;
